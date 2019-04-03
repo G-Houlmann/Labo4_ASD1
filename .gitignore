@@ -1,6 +1,16 @@
 # Prerequisites
 *.d
 
+*.inc
+Makefile
+*.xml
+*.mk
+*.bash
+*.c
+*nbproject/*
+
+
+
 # Compiled Object files
 *.slo
 *.lo
