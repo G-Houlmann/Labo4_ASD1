@@ -96,6 +96,21 @@ void testVariableCapacity() {
 }
 
 int main() {
+//   ArrayDeque<int> dq(10); 
+//   
+//   fillDeque(dq, 4);
+//   dq.afficherTest();
+//   
+//   dq.pop_front();
+//   dq.afficherTest();
+//   
+//   dq.pop_back(); 
+//   dq.afficherTest();
+   
+   
+   
+   
+   
   testAPI();
   testConstAPI();
   testConstantCapacity();

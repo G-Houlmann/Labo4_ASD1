@@ -2,6 +2,7 @@
 #define ArrayDeque_hpp
 
 #include <vector>
+#include <iostream> // Pour tests
 
 template<class T>
 class ArrayDeque {
@@ -17,13 +18,25 @@ private:
     size_type debut;
     size_type taille;
 
-    size_type indice_physique(size_type i_deq) {
+    size_type indice_physique(size_type i_deq) const {
         return (i_deq + debut) % capacity();
     }
 
-//  size_type indice_deque(size_type i_phys){
-//
-//  }
+    size_type indice_deque(size_type i_phys) const {
+       if(debut > i_phys) i_phys += capacity();
+       return (i_phys - debut);
+    }
+    
+    
+    void resizeIfNecesarry(){
+       size_t cap = capacity();
+       if(taille == cap){
+          unsigned extendCap = cap==0 ? 1 : cap;
+          std::vector<T> tmp = buffer;
+          tmp.resize(cap + extendCap);
+          buffer = tmp;
+       }
+    }
 
 
 public:
@@ -45,15 +58,15 @@ public:
     }
 
     reference front() {
-        return buffer[debut];
+        return buffer[indice_physique(0)];
     }
 
     reference back() {
-        return buffer[(taille - 1 + debut) % capacity()];
+       return buffer[(taille - 1 + debut) % capacity()];
     }
 
     const_reference front() const {
-        return buffer[debut];
+        return buffer[indice_physique(0)];
     }
 
     const_reference back() const {
@@ -61,26 +74,45 @@ public:
     }
 
     void push_back(value_type val) {
-        taille++;
-        buffer[(taille + debut) % capacity()] = val;
+       resizeIfNecesarry();
+       taille++;
+       buffer[indice_physique(taille - 1)] = val;
+       
     }
 
     void push_front(value_type val) {
-
+       resizeIfNecesarry();
+       taille++;
+       debut = debut == 0 ? capacity() - 1 : debut - 1;
+       buffer[debut] = val;
     }
 
     void pop_back() {
         taille--;
-        debut = (debut - 1) % capacity();
+        
     }
 
 
     void pop_front() {
-       
+       taille--;
+       debut = (debut + 1) % capacity();
     }
 
 // Completer cette classe générique pour qu'elle passe le codecheck
 
+    void afficherTest(){
+       std::cout << "Debut = " << debut << "; Taille = " << taille << std::endl;
+       for(size_t i = 0; i < capacity(); ++i){
+          std::cout << buffer[i] << " ";
+      }
+       std::cout << "   ->  ";
+       
+       for(size_t i = debut; i != (debut + taille) % capacity(); i = (i + 1) % capacity() ){
+          std::cout << buffer[i] << " ";
+       }
+       
+       std::cout << std::endl;
+    }
 
 };
 
