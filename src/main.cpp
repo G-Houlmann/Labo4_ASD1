@@ -39,7 +39,7 @@ void testConstAPI()
 void fillDeque(ArrayDeque<int>& dq, size_t n)
 {
   size_t cap = dq.capacity();
-  for(int i = 0; i < n; ++i) {
+  for(size_t i = 0; i < n; ++i) {
     if(i%2)
       dq.push_front(i);
     else
